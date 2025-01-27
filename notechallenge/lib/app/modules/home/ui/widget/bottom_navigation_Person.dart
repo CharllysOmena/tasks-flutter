@@ -22,7 +22,6 @@ class BottomBarPerson extends StatelessWidget {
       backgroundColor: Colors.white,
       currentIndex: index,
       onTap: (index) {
-        print(index);
         Modular.to.navigate(_routes[index]);
       },
       type: BottomNavigationBarType.fixed,

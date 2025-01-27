@@ -27,10 +27,13 @@ class NoteList extends StatelessWidget {
                   SizedBox(width: 12),
                   Flexible(
                     flex: 1,
-                    child: Checkbox(
-                      value: true,
-                      onChanged: (value) {},
-                      activeColor: Colors.blue,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 6),
+                      child: Checkbox(
+                        value: true,
+                        onChanged: (value) {},
+                        activeColor: Colors.blue,
+                      ),
                     ),
                   ),
                   Flexible(
@@ -43,13 +46,13 @@ class NoteList extends StatelessWidget {
                           fontSize: 14,
                         ),
                       ),
-                      // subtitle: Text(
-                      //   "loren ipsun loren ipsun loren ipsun loren ipsun loren ipsun loren ipsun",
-                      //   style: TextStyle(
-                      //     fontWeight: FontWeight.w300,
-                      //     fontSize: 12,
-                      //   ),
-                      // ),
+                      subtitle: Text(
+                        "loren ipsun loren ipsun loren ipsun loren ipsun loren ipsun loren ipsun",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          fontSize: 12,
+                        ),
+                      ),
                     ),
                   ),
                   Flexible(
