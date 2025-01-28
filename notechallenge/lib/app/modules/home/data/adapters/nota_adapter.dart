@@ -1,21 +1,21 @@
-import 'package:notechallenge/app/modules/home/data/entities/nota_entities.dart';
+import '../entities/nota_entities.dart';
 
-class NotaAdapter {
-  NotaAdapter._();
+class TaskAdapter {
+  TaskAdapter._();
 
-  static Nota fromMap(Map<String, dynamic> json) => Nota(
+  static Task fromMap(Map<String, dynamic> json) => Task(
         id: json["id"],
         descricao: json["descricao"],
         titulo: json["titulo"],
         status: json["status"] == 1,
       );
 
-  static Map<String, dynamic> toMap(Nota nota) {
+  static Map<String, dynamic> toMap(Task task) {
     return {
-      'id': nota.id,
-      'titulo': nota.titulo,
-      'descricao': nota.descricao,
-      'status': nota.status ? 1 : 0,
+      'id': task.id,
+      'titulo': task.titulo,
+      'descricao': task.descricao,
+      'status': task.status ? 1 : 0,
     };
   }
 }

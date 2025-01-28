@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:notechallenge/app/modules/home/data/adapters/nota_adapter.dart';
+import 'package:notechallenge/app/modules/home/interactors/stores/cadastro_store.dart';
 import 'package:notechallenge/app/modules/home/ui/widget/bottom_navigation_Person.dart';
 
 import '../widget/custom_appbar.dart';
@@ -12,6 +15,14 @@ class CadastroPage extends StatefulWidget {
 }
 
 class CadastroPageState extends State<CadastroPage> {
+  late CadastroStore store;
+
+  @override
+  void initState() {
+    super.initState();
+    store = Modular.get<CadastroStore>();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +51,106 @@ class CadastroPageState extends State<CadastroPage> {
                     ),
                   ),
                   TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) {
+                          return AlertDialog(
+                            backgroundColor: Colors.white,
+                            actions: [
+                              SizedBox(
+                                height: 20,
+                              ),
+                              const Center(
+                                child: Text(
+                                  "Add Task",
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color.fromARGB(255, 0, 110, 253),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Form(
+                                child: Column(
+                                  children: [
+                                    TextFormField(
+                                      controller: store.taskTitleController,
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      keyboardType: TextInputType.emailAddress,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        labelText: 'TAREFA',
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    TextFormField(
+                                      controller:
+                                          store.taskDescriptionController,
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      keyboardType: TextInputType.emailAddress,
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        labelText: 'DESCRIÇÃO',
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: const Color.fromARGB(
+                                            255, 235, 245, 255),
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 50,
+                                          vertical: 20,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        store.postTask(
+                                          TaskAdapter.fromMap(
+                                            {
+                                              "id": "",
+                                              "titulo": store
+                                                  .taskTitleController.text,
+                                              "descricao": store
+                                                  .taskDescriptionController
+                                                  .text,
+                                              "status": false,
+                                            },
+                                          ),
+                                        );
+                                      },
+                                      child: Text(
+                                        "Salvar",
+                                        style: TextStyle(
+                                          color: const Color.fromARGB(
+                                              255, 0, 110, 253),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          );
+                        },
+                      );
+                    },
                     icon: Icon(
                       Icons.add,
                       color: const Color.fromARGB(255, 0, 110, 253),

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../../data/entities/nota_entities.dart';
 
 class NoteList extends StatelessWidget {
-  final List<Nota> notas;
+  final List<Task> tasks;
   const NoteList({
     super.key,
-    required this.notas,
+    required this.tasks,
   });
 
   @override

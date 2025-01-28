@@ -1,4 +1,4 @@
-import 'package:notechallenge/app/modules/home/data/entities/nota_entities.dart';
+import '../../data/entities/nota_entities.dart';
 
 abstract interface class HomeState {}
 
@@ -7,8 +7,8 @@ class StartHomeState implements HomeState {
 }
 
 class SuccessHomeState implements HomeState {
-  final List<Nota>? notas;
-  const SuccessHomeState({this.notas});
+  final List<Task>? tasks;
+  const SuccessHomeState({this.tasks});
 }
 
 class ErrorExceptionHomeState implements HomeState {

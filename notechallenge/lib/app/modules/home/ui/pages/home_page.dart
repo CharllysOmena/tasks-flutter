@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:notechallenge/app/modules/home/data/entities/nota_entities.dart';
 import 'package:notechallenge/app/modules/home/ui/widget/text_main.dart';
 import '../../interactors/stores/home_store.dart';
 import '../widget/bottom_navigation_Person.dart';
@@ -40,7 +39,7 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(fontWeight: FontWeight.w200, fontSize: 12),
             ),
             SizedBox(height: 20),
-            NoteList(notas: []),
+            NoteList(tasks: []),
           ],
         ),
       ),

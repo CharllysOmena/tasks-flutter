@@ -1,10 +1,10 @@
-class Nota {
+class Task {
   String id;
   String titulo;
   String descricao;
   bool status;
 
-  Nota({
+  Task({
     required this.id,
     required this.descricao,
     required this.titulo,
