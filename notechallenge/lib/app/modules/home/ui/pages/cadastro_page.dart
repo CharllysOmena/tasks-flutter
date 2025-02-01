@@ -5,6 +5,7 @@ import 'package:notechallenge/app/modules/home/interactors/stores/cadastro_store
 import 'package:notechallenge/app/modules/home/ui/widget/bottom_navigation_Person.dart';
 
 import '../widget/custom_appbar.dart';
+import '../widget/modal_cadastro.dart';
 import '../widget/text_main.dart';
 
 class CadastroPage extends StatefulWidget {
@@ -27,7 +28,7 @@ class CadastroPageState extends State<CadastroPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(),
-      body: Container(
+      body: SingleChildScrollView(
         padding: EdgeInsets.all(18),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +42,7 @@ class CadastroPageState extends State<CadastroPage> {
             Center(
               child: Column(
                 children: [
-                  Image.asset('image.png'),
+                  Image.asset("assets/image.png"),
                   Padding(
                     padding: const EdgeInsets.only(top: 8, bottom: 24),
                     child: Text(
@@ -52,103 +53,11 @@ class CadastroPageState extends State<CadastroPage> {
                   ),
                   TextButton.icon(
                     onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (_) {
-                          return AlertDialog(
-                            backgroundColor: Colors.white,
-                            actions: [
-                              SizedBox(
-                                height: 20,
-                              ),
-                              const Center(
-                                child: Text(
-                                  "Add Task",
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color.fromARGB(255, 0, 110, 253),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Form(
-                                child: Column(
-                                  children: [
-                                    TextFormField(
-                                      controller: store.taskTitleController,
-                                      autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
-                                      keyboardType: TextInputType.emailAddress,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        labelText: 'TAREFA',
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    TextFormField(
-                                      controller:
-                                          store.taskDescriptionController,
-                                      autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
-                                      keyboardType: TextInputType.emailAddress,
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        labelText: 'DESCRIÇÃO',
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: const Color.fromARGB(
-                                            255, 235, 245, 255),
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 50,
-                                          vertical: 20,
-                                        ),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                      ),
-                                      onPressed: () {
-                                        store.postTask(
-                                          TaskAdapter.fromMap(
-                                            {
-                                              "id": "",
-                                              "titulo": store
-                                                  .taskTitleController.text,
-                                              "descricao": store
-                                                  .taskDescriptionController
-                                                  .text,
-                                              "status": false,
-                                            },
-                                          ),
-                                        );
-                                      },
-                                      child: Text(
-                                        "Salvar",
-                                        style: TextStyle(
-                                          color: const Color.fromARGB(
-                                              255, 0, 110, 253),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          );
-                        },
+                      showAddTaskDialog(
+                        context,
+                        store.taskTitleController,
+                        store.taskDescriptionController,
+                        (task) => store.postTask(task),
                       );
                     },
                     icon: Icon(
@@ -164,7 +73,7 @@ class CadastroPageState extends State<CadastroPage> {
                     ),
                     style: TextButton.styleFrom(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+                          EdgeInsets.symmetric(horizontal: 18, vertical: 16),
                       backgroundColor: const Color.fromARGB(255, 235, 245, 255),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:notechallenge/app/modules/home/interactors/stores/home_store.dart';
 
-import '../../data/entities/nota_entities.dart';
-
-class NoteList extends StatelessWidget {
-  final List<Task> tasks;
-  const NoteList({
+class TaskList extends StatelessWidget {
+  final HomeStore store;
+  const TaskList({
     super.key,
-    required this.tasks,
+    required this.store,
   });
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.builder(
+        itemCount: store.tasks!.length,
         itemBuilder: (_, index) {
           return Padding(
             padding: const EdgeInsets.only(bottom: 12),
@@ -30,8 +30,10 @@ class NoteList extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 6),
                       child: Checkbox(
-                        value: true,
-                        onChanged: (value) {},
+                        value: store.tasks![index].status,
+                        onChanged: (value) {
+                          store.alterarStatus(store.tasks![index].id!);
+                        },
                         activeColor: Colors.blue,
                       ),
                     ),
@@ -40,14 +42,14 @@ class NoteList extends StatelessWidget {
                     flex: 13,
                     child: ListTile(
                       title: Text(
-                        "Tarefa numero 1",
+                        store.tasks![index].titulo,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 14,
                         ),
                       ),
                       subtitle: Text(
-                        "loren ipsun loren ipsun loren ipsun loren ipsun loren ipsun loren ipsun",
+                        store.tasks![index].descricao,
                         style: TextStyle(
                           fontWeight: FontWeight.w300,
                           fontSize: 12,

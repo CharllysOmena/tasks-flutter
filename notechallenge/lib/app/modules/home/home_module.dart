@@ -1,4 +1,4 @@
-import 'package:notechallenge/app/modules/home/data/repositories/notas_repository.dart';
+import 'package:notechallenge/app/modules/home/data/repositories/task_repository.dart';
 import 'package:notechallenge/app/modules/home/interactors/stores/finalizados_store.dart';
 import 'package:notechallenge/app/modules/home/interactors/stores/busca_store.dart';
 import 'package:notechallenge/app/modules/home/interactors/stores/cadastro_store.dart';
@@ -24,7 +24,9 @@ class HomeModule extends Module {
         taskRepository: i.get<TaskRepository>(),
       ),
     ),
-    Bind.lazySingleton((i) => HomeStore()),
+    Bind.lazySingleton((i) => TaskRepository()),
+    Bind.lazySingleton(
+        (i) => HomeStore(taskRepository: i.get<TaskRepository>())),
   ];
 
   @override

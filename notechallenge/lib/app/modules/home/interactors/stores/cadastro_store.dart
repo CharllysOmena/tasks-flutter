@@ -3,7 +3,7 @@ import 'package:mobx/mobx.dart';
 import 'package:notechallenge/app/modules/home/interactors/states/cadastro_state.dart';
 
 import '../../data/entities/nota_entities.dart';
-import '../../data/repositories/notas_repository.dart';
+import '../../data/repositories/task_repository.dart';
 
 part 'cadastro_store.g.dart';
 

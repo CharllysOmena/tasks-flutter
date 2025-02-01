@@ -1,11 +1,11 @@
 class Task {
-  String id;
+  int? id;
   String titulo;
   String descricao;
   bool status;
 
   Task({
-    required this.id,
+    this.id,
     required this.descricao,
     required this.titulo,
     required this.status,
