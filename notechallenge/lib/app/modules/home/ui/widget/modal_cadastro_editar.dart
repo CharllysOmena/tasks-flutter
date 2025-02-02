@@ -3,16 +3,18 @@ import 'package:flutter_modular/flutter_modular.dart';
 import '../../data/adapters/nota_adapter.dart';
 import '../../data/entities/nota_entities.dart';
 
-class AddTaskDialog extends StatelessWidget {
+class EditTaskDialog extends StatelessWidget {
+  final Task task;
   final TextEditingController taskTitleController;
   final TextEditingController taskDescriptionController;
   final Function(Task) onSave;
 
-  const AddTaskDialog({
+  const EditTaskDialog({
     super.key,
     required this.taskTitleController,
     required this.taskDescriptionController,
     required this.onSave,
+    required this.task,
   });
 
   @override
@@ -64,15 +66,21 @@ class AddTaskDialog extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    onSave(
-                      TaskAdapter.fromMap({
-                        "titulo": taskTitleController.text,
-                        "descricao": taskDescriptionController.text,
-                        "status": false,
-                      }),
-                    );
-                    Modular.to.pop();
-                    Modular.to.navigate("/");
+                    if (task.titulo == taskTitleController.text &&
+                        task.descricao == taskDescriptionController.text) {
+                      Modular.to.pop();
+                    } else {
+                      print(task.status);
+                      onSave(
+                        TaskAdapter.fromMap({
+                          "id": task.id,
+                          "titulo": taskTitleController.text,
+                          "descricao": taskDescriptionController.text,
+                          "status": task.status,
+                        }),
+                      );
+                      Modular.to.pop();
+                    }
                   },
                   child: const Text(
                     "Salvar",
@@ -92,14 +100,16 @@ class AddTaskDialog extends StatelessWidget {
   }
 }
 
-void showAddTaskDialog(
+void showEditTaskDialog(
     BuildContext context,
+    Task task,
     TextEditingController titleController,
     TextEditingController descriptionController,
     Function(Task) onSave) {
   showDialog(
     context: context,
-    builder: (_) => AddTaskDialog(
+    builder: (_) => EditTaskDialog(
+      task: task,
       taskTitleController: titleController,
       taskDescriptionController: descriptionController,
       onSave: onSave,

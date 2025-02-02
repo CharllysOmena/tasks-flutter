@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:notechallenge/app/modules/home/data/entities/nota_entities.dart';
 import 'package:notechallenge/app/modules/home/interactors/states/home_state.dart';
@@ -10,6 +11,9 @@ class HomeStore = HomeStoreBase with _$HomeStore;
 
 abstract class HomeStoreBase with Store {
   final ITaskRepository taskRepository;
+
+  TextEditingController taskTitleController = TextEditingController();
+  TextEditingController taskDescriptionController = TextEditingController();
 
   @observable
   HomeState state = StartHomeState();
@@ -37,6 +41,12 @@ abstract class HomeStoreBase with Store {
   deleteTask(int id) async {
     emit(LoadingHomeState());
     await taskRepository.deleteTask(id);
+    getTasks();
+  }
+
+  putTask(Task task) async {
+    emit(LoadingHomeState());
+    await taskRepository.putTask(task);
     getTasks();
   }
 }

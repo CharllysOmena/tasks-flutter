@@ -24,7 +24,9 @@ abstract class _FinalizadosStoreBase with Store {
   getTasks() async {
     emit(LoadingHomeState());
     var response = await taskRepository.getTasks();
-    (response is SuccessHomeState) ? tasks = response.tasks : tasks = [];
+    (response is SuccessHomeState)
+        ? tasks = response.tasks?.where((task) => task.status == true).toList()
+        : tasks = [];
     emit(response);
   }
 }

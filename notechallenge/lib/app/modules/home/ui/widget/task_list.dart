@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:notechallenge/app/modules/home/interactors/stores/home_store.dart';
 
+import 'modal_cadastro_editar.dart';
+
 class TaskList extends StatelessWidget {
   final HomeStore store;
   const TaskList({
@@ -14,6 +16,7 @@ class TaskList extends StatelessWidget {
       child: ListView.builder(
         itemCount: store.tasks!.length,
         itemBuilder: (_, index) {
+          print(store.tasks![index].status);
           return Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: Container(
@@ -59,14 +62,40 @@ class TaskList extends StatelessWidget {
                   ),
                   Flexible(
                     flex: 2,
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(
+                    child: PopupMenuButton<String>(
+                      icon: const Icon(
                         Icons.more_horiz,
                         size: 20,
                       ),
+                      onSelected: (value) {
+                        if (value == 'editar') {
+                          store.taskTitleController.text =
+                              store.tasks![index].titulo;
+                          store.taskDescriptionController.text =
+                              store.tasks![index].descricao;
+                          showEditTaskDialog(
+                            context,
+                            store.tasks![index],
+                            store.taskTitleController,
+                            store.taskDescriptionController,
+                            (task) => store.putTask(task),
+                          );
+                        } else if (value == 'excluir') {
+                          store.deleteTask(store.tasks![index].id!);
+                        }
+                      },
+                      itemBuilder: (context) => [
+                        const PopupMenuItem(
+                          value: 'editar',
+                          child: Text('Editar'),
+                        ),
+                        const PopupMenuItem(
+                          value: 'excluir',
+                          child: Text('Excluir'),
+                        ),
+                      ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

@@ -9,9 +9,9 @@ import '../entities/nota_entities.dart';
 abstract interface class ITaskRepository {
   Future<HomeState> getTasks();
   Future<CadastroState> postTask(Task task);
-  Future<CadastroState> putTask(Task task);
+  Future<HomeState> putTask(Task task);
   Future<HomeState> deleteTask(int id);
-  Future<CadastroState> alterarStatus(int id);
+  Future<HomeState> alterarStatus(int id);
 }
 
 class TaskRepository implements ITaskRepository {
@@ -61,7 +61,7 @@ class TaskRepository implements ITaskRepository {
   Future<CadastroState> postTask(Task task) async {
     try {
       final db = await database;
-      int id = await db.insert(
+      await db.insert(
         tableTasks,
         TaskAdapter.toMap(task),
         conflictAlgorithm: ConflictAlgorithm.replace,
@@ -74,10 +74,9 @@ class TaskRepository implements ITaskRepository {
   }
 
   @override
-  Future<CadastroState> putTask(Task task) async {
+  Future<HomeState> putTask(Task task) async {
     if (task.id == null) {
-      return ErrorExceptionCadastroState(
-          error: "ID inválido para atualização!");
+      return ErrorExceptionHomeState(error: "ID inválido para atualização!");
     }
     try {
       final db = await database;
@@ -87,10 +86,10 @@ class TaskRepository implements ITaskRepository {
         where: 'id = ?',
         whereArgs: [task.id],
       );
-      return SuccessCadastroState();
+      return SuccessHomeState();
     } catch (e) {
       print(e);
-      return ErrorExceptionCadastroState(error: "Erro ao atualizar os dados!");
+      return ErrorExceptionHomeState(error: "Erro ao atualizar os dados!");
     }
   }
 
@@ -111,7 +110,7 @@ class TaskRepository implements ITaskRepository {
   }
 
   @override
-  Future<CadastroState> alterarStatus(int id) async {
+  Future<HomeState> alterarStatus(int id) async {
     try {
       final db = await database;
       final List<Map<String, dynamic>> result = await db.query(
@@ -131,13 +130,13 @@ class TaskRepository implements ITaskRepository {
           where: 'id = ?',
           whereArgs: [id],
         );
-        return SuccessCadastroState();
+        return SuccessHomeState();
       } else {
-        return ErrorExceptionCadastroState(error: "Erro ao alterar status");
+        return ErrorExceptionHomeState(error: "Erro ao alterar status");
       }
     } catch (e) {
       print(e);
-      return ErrorExceptionCadastroState(error: "Erro ao alterar status");
+      return ErrorExceptionHomeState(error: "Erro ao alterar status");
     }
   }
 }
