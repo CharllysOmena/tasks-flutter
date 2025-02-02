@@ -24,6 +24,21 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  late final _$tasksAtom = Atom(name: 'HomeStoreBase.tasks', context: context);
+
+  @override
+  List<Task>? get tasks {
+    _$tasksAtom.reportRead();
+    return super.tasks;
+  }
+
+  @override
+  set tasks(List<Task>? value) {
+    _$tasksAtom.reportWrite(value, super.tasks, () {
+      super.tasks = value;
+    });
+  }
+
   late final _$HomeStoreBaseActionController =
       ActionController(name: 'HomeStoreBase', context: context);
 
@@ -41,7 +56,8 @@ mixin _$HomeStore on HomeStoreBase, Store {
   @override
   String toString() {
     return '''
-state: ${state}
+state: ${state},
+tasks: ${tasks}
     ''';
   }
 }

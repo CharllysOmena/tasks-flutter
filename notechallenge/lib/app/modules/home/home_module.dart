@@ -17,14 +17,11 @@ class HomeModule extends Module {
     Bind.lazySingleton((i) => TaskRepository()),
 
     // STORES
-    Bind.lazySingleton((i) => FinalizadosStore()),
+    Bind.lazySingleton(
+        (i) => FinalizadosStore(taskRepository: i.get<TaskRepository>())),
     Bind.lazySingleton((i) => BuscaStore()),
     Bind.lazySingleton(
-      (i) => CadastroStore(
-        taskRepository: i.get<TaskRepository>(),
-      ),
-    ),
-    Bind.lazySingleton((i) => TaskRepository()),
+        (i) => CadastroStore(taskRepository: i.get<TaskRepository>())),
     Bind.lazySingleton(
         (i) => HomeStore(taskRepository: i.get<TaskRepository>())),
   ];

@@ -72,6 +72,7 @@ class AddTaskDialog extends StatelessWidget {
                       }),
                     );
                     Modular.to.pop();
+                    Modular.to.navigate("/");
                   },
                   child: const Text(
                     "Salvar",

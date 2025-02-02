@@ -17,6 +17,7 @@ abstract class HomeStoreBase with Store {
   @action
   emit(HomeState newState) => state = newState;
 
+  @observable
   List<Task>? tasks;
 
   HomeStoreBase({required this.taskRepository});
@@ -30,6 +31,12 @@ abstract class HomeStoreBase with Store {
 
   alterarStatus(int id) async {
     await taskRepository.alterarStatus(id);
+    getTasks();
+  }
+
+  deleteTask(int id) async {
+    emit(LoadingHomeState());
+    await taskRepository.deleteTask(id);
     getTasks();
   }
 }

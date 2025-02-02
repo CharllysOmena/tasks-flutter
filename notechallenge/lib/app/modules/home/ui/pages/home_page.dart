@@ -39,9 +39,11 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextMain(nome: "Jhon"),
-            Text(
-              "Você tem X tarefas para executar.",
-              style: TextStyle(fontWeight: FontWeight.w200, fontSize: 12),
+            Observer(
+              builder: (context) => Text(
+                "Você tem ${store.tasks?.length ?? 0} tarefas adicionadas.",
+                style: TextStyle(fontWeight: FontWeight.w200, fontSize: 12),
+              ),
             ),
             SizedBox(height: 20),
             Observer(

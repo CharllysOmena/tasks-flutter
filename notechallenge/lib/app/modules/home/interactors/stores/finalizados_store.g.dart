@@ -9,19 +9,19 @@ part of 'finalizados_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$FinalizadosStore on _FinalizadosStoreBase, Store {
-  late final _$valueAtom =
-      Atom(name: '_FinalizadosStoreBase.value', context: context);
+  late final _$stateAtom =
+      Atom(name: '_FinalizadosStoreBase.state', context: context);
 
   @override
-  int get value {
-    _$valueAtom.reportRead();
-    return super.value;
+  HomeState get state {
+    _$stateAtom.reportRead();
+    return super.state;
   }
 
   @override
-  set value(int value) {
-    _$valueAtom.reportWrite(value, super.value, () {
-      super.value = value;
+  set state(HomeState value) {
+    _$stateAtom.reportWrite(value, super.state, () {
+      super.state = value;
     });
   }
 
@@ -29,11 +29,11 @@ mixin _$FinalizadosStore on _FinalizadosStoreBase, Store {
       ActionController(name: '_FinalizadosStoreBase', context: context);
 
   @override
-  void increment() {
+  dynamic emit(HomeState newState) {
     final _$actionInfo = _$_FinalizadosStoreBaseActionController.startAction(
-        name: '_FinalizadosStoreBase.increment');
+        name: '_FinalizadosStoreBase.emit');
     try {
-      return super.increment();
+      return super.emit(newState);
     } finally {
       _$_FinalizadosStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -42,7 +42,7 @@ mixin _$FinalizadosStore on _FinalizadosStoreBase, Store {
   @override
   String toString() {
     return '''
-value: ${value}
+state: ${state}
     ''';
   }
 }

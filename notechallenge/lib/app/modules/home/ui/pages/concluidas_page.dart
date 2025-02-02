@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:notechallenge/app/modules/home/interactors/stores/finalizados_store.dart';
 
+import '../../interactors/states/home_state.dart';
 import '../widget/bottom_navigation_Person.dart';
 import '../widget/custom_appbar.dart';
+import '../widget/empty.dart';
+import '../widget/error.dart';
+import '../widget/loading.dart';
+import '../widget/task_list.dart';
+import '../widget/task_list_finalizados.dart';
 import '../widget/text_main.dart';
 
 class ConcluidasPage extends StatefulWidget {
@@ -13,6 +22,15 @@ class ConcluidasPage extends StatefulWidget {
 }
 
 class ConcluidasPageState extends State<ConcluidasPage> {
+  late FinalizadosStore store;
+
+  @override
+  void initState() {
+    super.initState();
+    store = Modular.get<FinalizadosStore>();
+    store.getTasks();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +46,20 @@ class ConcluidasPageState extends State<ConcluidasPage> {
               style: TextStyle(fontWeight: FontWeight.w200, fontSize: 12),
             ),
             SizedBox(height: 20),
+            Observer(
+              builder: (_) {
+                switch (store.state.runtimeType) {
+                  case const (SuccessHomeState):
+                    return TaskListFinalizados(store: store);
+                  case const (LoadingHomeState):
+                    return Loading();
+                  case const (EmptyHomeState):
+                    return EmptyWidget(mensagem: "notas");
+                  default:
+                    return ErroWidget();
+                }
+              },
+            ),
           ],
         ),
       ),
