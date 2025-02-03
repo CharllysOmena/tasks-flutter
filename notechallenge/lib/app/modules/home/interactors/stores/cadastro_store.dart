@@ -26,4 +26,9 @@ abstract class _CadastroStoreBase with Store {
     CadastroState response = await taskRepository.postTask(task);
     emit(response);
   }
+
+  dispose() {
+    taskDescriptionController.text = "";
+    taskTitleController.text = "";
+  }
 }

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:notechallenge/app/modules/home/interactors/stores/home_store.dart';
-
-import 'modal_cadastro_editar.dart';
+import 'modal_cadastro.dart';
 
 class TaskList extends StatelessWidget {
-  final HomeStore store;
+  final store;
+  final bool isCheck;
   const TaskList({
     super.key,
     required this.store,
+    required this.isCheck,
   });
 
   @override
@@ -16,7 +16,6 @@ class TaskList extends StatelessWidget {
       child: ListView.builder(
         itemCount: store.tasks!.length,
         itemBuilder: (_, index) {
-          print(store.tasks![index].status);
           return Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: Container(
@@ -35,7 +34,9 @@ class TaskList extends StatelessWidget {
                       child: Checkbox(
                         value: store.tasks![index].status,
                         onChanged: (value) {
-                          store.alterarStatus(store.tasks![index].id!);
+                          if (!isCheck) {
+                            store.alterarStatus(store.tasks![index].id!);
+                          }
                         },
                         activeColor: Colors.blue,
                       ),
@@ -60,42 +61,45 @@ class TaskList extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Flexible(
-                    flex: 2,
-                    child: PopupMenuButton<String>(
-                      icon: const Icon(
-                        Icons.more_horiz,
-                        size: 20,
-                      ),
-                      onSelected: (value) {
-                        if (value == 'editar') {
-                          store.taskTitleController.text =
-                              store.tasks![index].titulo;
-                          store.taskDescriptionController.text =
-                              store.tasks![index].descricao;
-                          showEditTaskDialog(
-                            context,
-                            store.tasks![index],
-                            store.taskTitleController,
-                            store.taskDescriptionController,
-                            (task) => store.putTask(task),
-                          );
-                        } else if (value == 'excluir') {
-                          store.deleteTask(store.tasks![index].id!);
-                        }
-                      },
-                      itemBuilder: (context) => [
-                        const PopupMenuItem(
-                          value: 'editar',
-                          child: Text('Editar'),
+                  (isCheck)
+                      ? Container()
+                      : Flexible(
+                          flex: 2,
+                          child: PopupMenuButton<String>(
+                            icon: const Icon(
+                              Icons.more_horiz,
+                              size: 20,
+                            ),
+                            onSelected: (value) {
+                              if (value == 'editar') {
+                                store.taskTitleController.text =
+                                    store.tasks![index].titulo;
+                                store.taskDescriptionController.text =
+                                    store.tasks![index].descricao;
+                                showEditAddTaskDialog(
+                                  context,
+                                  store.tasks![index],
+                                  false,
+                                  store.taskTitleController,
+                                  store.taskDescriptionController,
+                                  (task) => store.putTask(task),
+                                );
+                              } else if (value == 'excluir') {
+                                store.deleteTask(store.tasks![index].id!);
+                              }
+                            },
+                            itemBuilder: (context) => [
+                              const PopupMenuItem(
+                                value: 'editar',
+                                child: Text('Editar'),
+                              ),
+                              const PopupMenuItem(
+                                value: 'excluir',
+                                child: Text('Excluir'),
+                              ),
+                            ],
+                          ),
                         ),
-                        const PopupMenuItem(
-                          value: 'excluir',
-                          child: Text('Excluir'),
-                        ),
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ),

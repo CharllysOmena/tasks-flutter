@@ -14,7 +14,6 @@ class BottomBarPerson extends StatelessWidget {
     final List<String> _routes = [
       "/",
       "/cadastrar",
-      "/busca",
       "/concluida",
     ];
 
@@ -28,19 +27,15 @@ class BottomBarPerson extends StatelessWidget {
       items: [
         BottomNavigationBarItem(
           icon: Icon(Icons.view_list),
-          label: 'Todo',
+          label: 'Tarefas',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.add_box_outlined),
-          label: 'Create',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.search),
-          label: 'Search',
+          label: 'Nova tarefa',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.check_box_outlined),
-          label: 'Done',
+          label: 'Concluídas',
         ),
       ],
       selectedItemColor: Colors.blue,

@@ -10,13 +10,11 @@ import '../widget/empty.dart';
 import '../widget/error.dart';
 import '../widget/loading.dart';
 import '../widget/task_list.dart';
-import '../widget/task_list_finalizados.dart';
 import '../widget/text_main.dart';
 
 class ConcluidasPage extends StatefulWidget {
   final String title;
-  const ConcluidasPage({Key? key, this.title = 'ConcluidasPage'})
-      : super(key: key);
+  const ConcluidasPage({super.key, this.title = 'ConcluidasPage'});
   @override
   ConcluidasPageState createState() => ConcluidasPageState();
 }
@@ -41,20 +39,25 @@ class ConcluidasPageState extends State<ConcluidasPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextMain(nome: "Jhon"),
-            Text(
-              "Crie novas tarefas para executar.",
-              style: TextStyle(fontWeight: FontWeight.w200, fontSize: 12),
+            Observer(
+              builder: (context) => Text(
+                "Você tem ${store.tasks?.length ?? 0} tarefas finalizadas.",
+                style: TextStyle(fontWeight: FontWeight.w200, fontSize: 12),
+              ),
             ),
             SizedBox(height: 20),
             Observer(
               builder: (_) {
                 switch (store.state.runtimeType) {
                   case const (SuccessHomeState):
-                    return TaskListFinalizados(store: store);
+                    return TaskList(
+                      store: store,
+                      isCheck: true,
+                    );
                   case const (LoadingHomeState):
                     return Loading();
                   case const (EmptyHomeState):
-                    return EmptyWidget(mensagem: "notas");
+                    return EmptyWidget(mensagem: "notas finalizadas");
                   default:
                     return ErroWidget();
                 }
@@ -63,7 +66,7 @@ class ConcluidasPageState extends State<ConcluidasPage> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomBarPerson(index: 3),
+      bottomNavigationBar: BottomBarPerson(index: 2),
     );
   }
 }

@@ -3,16 +3,20 @@ import 'package:flutter_modular/flutter_modular.dart';
 import '../../data/adapters/nota_adapter.dart';
 import '../../data/entities/nota_entities.dart';
 
-class AddTaskDialog extends StatelessWidget {
+class AddEditTaskDialog extends StatelessWidget {
+  final Task? task;
+  final bool isAdd;
   final TextEditingController taskTitleController;
   final TextEditingController taskDescriptionController;
   final Function(Task) onSave;
 
-  const AddTaskDialog({
+  const AddEditTaskDialog({
     super.key,
+    required this.isAdd,
     required this.taskTitleController,
     required this.taskDescriptionController,
     required this.onSave,
+    this.task,
   });
 
   @override
@@ -22,9 +26,9 @@ class AddTaskDialog extends StatelessWidget {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
-            "Add Task",
-            style: TextStyle(
+          Text(
+            isAdd ? "Adicionar Tarefa" : "Editar Tarefa",
+            style: const TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w600,
               color: Color.fromARGB(255, 0, 110, 253),
@@ -64,15 +68,28 @@ class AddTaskDialog extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    onSave(
-                      TaskAdapter.fromMap({
-                        "titulo": taskTitleController.text,
-                        "descricao": taskDescriptionController.text,
-                        "status": false,
-                      }),
-                    );
-                    Modular.to.pop();
-                    Modular.to.navigate("/");
+                    final taskData = {
+                      "titulo": taskTitleController.text,
+                      "descricao": taskDescriptionController.text,
+                    };
+
+                    if (isAdd) {
+                      onSave(
+                          TaskAdapter.fromMap({...taskData, "status": false}));
+                      Modular.to.pop();
+                      Modular.to.navigate("/");
+                    } else {
+                      if (task != null &&
+                          (task!.titulo != taskData["titulo"] ||
+                              task!.descricao != taskData["descricao"])) {
+                        onSave(TaskAdapter.fromMap({
+                          ...taskData,
+                          "id": task!.id,
+                          "status": task!.status,
+                        }));
+                      }
+                      Modular.to.pop();
+                    }
                   },
                   child: const Text(
                     "Salvar",
@@ -92,14 +109,19 @@ class AddTaskDialog extends StatelessWidget {
   }
 }
 
-void showAddTaskDialog(
-    BuildContext context,
-    TextEditingController titleController,
-    TextEditingController descriptionController,
-    Function(Task) onSave) {
+void showEditAddTaskDialog(
+  BuildContext context,
+  Task? task,
+  bool isAdd,
+  TextEditingController titleController,
+  TextEditingController descriptionController,
+  Function(Task) onSave,
+) {
   showDialog(
     context: context,
-    builder: (_) => AddTaskDialog(
+    builder: (_) => AddEditTaskDialog(
+      task: task,
+      isAdd: isAdd,
       taskTitleController: titleController,
       taskDescriptionController: descriptionController,
       onSave: onSave,

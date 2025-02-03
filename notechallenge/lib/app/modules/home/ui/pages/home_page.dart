@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
               builder: (_) {
                 switch (store.state.runtimeType) {
                   case const (SuccessHomeState):
-                    return TaskList(store: store);
+                    return TaskList(store: store, isCheck: false);
                   case const (LoadingHomeState):
                     return Loading();
                   case const (EmptyHomeState):

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:notechallenge/app/modules/home/data/adapters/nota_adapter.dart';
 import 'package:notechallenge/app/modules/home/interactors/stores/cadastro_store.dart';
 import 'package:notechallenge/app/modules/home/ui/widget/bottom_navigation_Person.dart';
 
@@ -53,8 +52,11 @@ class CadastroPageState extends State<CadastroPage> {
                   ),
                   TextButton.icon(
                     onPressed: () {
-                      showAddTaskDialog(
+                      store.dispose();
+                      showEditAddTaskDialog(
                         context,
+                        null,
+                        true,
                         store.taskTitleController,
                         store.taskDescriptionController,
                         (task) => store.postTask(task),
